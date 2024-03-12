@@ -1,0 +1,694 @@
+
+
+<!DOCTYPE html>
+<html>
+  
+<head>
+<title>Auditing PK-79</title>
+<link rel="icon" href="blank.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<meta charset="UTF-8">
+<style>
+  img {
+    max-width: 50%;
+    height: auto;
+  }
+  .container {
+    max-width: 95%;
+    margin: 0 auto; /* Center the container */
+  }
+  .rtl {
+    direction: rtl;
+    font-family: 'Noto Nastaliq Urdu', cursive;
+  }
+.left, .right {
+  display: inline-block;
+  width: 30%; /* Increase size by 10% */
+  margin: 0; /* Remove margin */ 
+}
+
+.left_election, .right_election {
+  display: inline-block;
+  width: 50%; /* Increase size by 10% */
+  margin: 0; /* Remove margin */ 
+}
+.superscript {
+  vertical-align: super; /* Align text as superscript */
+}
+.image-container {
+    width: 100%; /* Adjust this to your desired width */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    white-space: nowrap; /* Prevent wrapping of figures */
+}
+
+.image-container figure {
+    display: inline-block; /* Display figures in a row */
+    margin: 0 -200px; /* Remove margin */
+    padding: 0 5px; /* Remove default padding */
+}
+.image-full-width {
+    width: 95%;
+    max-width: 100vw; /* Limit width to viewport width */
+    margin: 0 auto; /* Center the image */
+    display: block; /* Make sure it's a block-level element */
+}
+
+  .bottom-three {
+     margin-bottom: 1cm;
+  }
+  .bottom-five {
+     margin-bottom: 3cm;
+  }
+
+</style>
+</head>  
+
+<body>
+
+
+
+<!-- Page Content -->
+
+<div class="container">
+<div class="w3-container">
+
+<center>
+<h2><font face="helvetica">Auditing PK-79: A Mathematical Approach</font></h2>
+</center>
+
+<h3><p></p>Introduction:</h3>
+<p>
+Last week the <a href='https://www.ecp.gov.pk/' target="_blank">Election Commission of Pakistan</a> (ECP) finally <a href="https://ecp.gov.pk/general-elections-2024" target="_blank">uploaded</a> the Result of Count Forms (Form 45s) for the <a href="https://en.wikipedia.org/wiki/2024_Pakistani_general_election" target="_blank">Feb. 8 Elections</a>. In any healthy democracy &mdash; like <a href="https://southasiapress.org/2024/02/19/pakistan-is-an-authoritarian-regime-democracy-index-2023-only-asian-country-in-the-category/" target="_blank">Pakistan's</a> &mdash; transparency is always a good sign. Now let's look at  some of the forms:
+</p>
+<center>
+<figure>
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/PK-79_2024_PS-4.png" alt="Peshawar VIII 2024 PS:4">
+    <figcaption>Form 45 from the 2024 Elections for Peshawar VIII (PK-79): <a href="https://drive.google.com/file/d/1VvKkMUJlW4YgqutbNxhaX9S6kKqBcy5Y/view?usp=drive_link" target="_blank">Polling Station 4</a></figcaption>
+</figure>
+</center>
+
+
+
+<p></p>
+<br><br>
+<p>
+Now if you were a cynic, you might have noticed modifications on the forms and might immediately think “Election Rigging”. But if you were an optimist like me, you would never think that an institution like the ECP, a bastion of the democratic process, would ever be complicit in something like “Election Rigging”. Maybe some <a href="https://ecp.gov.pk/appointment-of-district-returning-officers-returning-officers-and-assistant-returning-officers" target="_blank">Returning Official</a> (RO) made a mistake and the modifications are just them correcting those mistakes. There is precedence to such modifications. Look at the Form 45 for PK-73 from the 2018 elections. 
+</p>
+<center>
+    <figure>
+        <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/PK-73_2018_PS-31.png" alt="Peshawar VIII 2018 PS:31">
+        <figcaption>Form 45 from the 2018 Elections for Peshawar VIII (PK-73): <a href="https://drive.google.com/file/d/163FaYHC6ZK-tMqUl-oNfbdqVMx4yg_pK/view?usp=drive_link" target="_blank">Polling Station 31</a></figcaption>
+    </figure>
+</center>
+
+<br><br>
+<p>
+Okay, you might want to argue that the 2018 example I uploaded is different, the returning official has signed off on the change. However, I would still like to give the ECP the benefit of the doubt. There were over <a href="https://www.aljazeera.com/news/2024/2/7/pakistan-elections-2024-how-the-voting-works" target="_blank">90,000</a> polling stations all over the country, some officials were bound to make mistakes, maybe someone just forgot to sign off on the modification.
+</p>
+<p>
+We can't really prove that there was rigging just because there were some modifications to some of the forms. Or can we?
+More specifically, can we devise a mathematical method to audit form 45s to detect deliberate rigging.
+</p>
+
+<p></p>
+<h3><p></p>A Definitional Segue:</h3>
+<p>Electoral rigging comes in many shapes and sizes. The most well known one is <a href="https://ballotpedia.org/Ballot_stuffing" target="_blank">ballot stuffing</a>, where votes are casted for a particular candidate by people that may or may not exist. One alleged example of ballot stuffing took place in the <a href="https://www.cnn.com/2002/WORLD/asiapcf/south/05/02/pakistan.referendum/index.html" target="_blank">2002 referendum</a>.
+</p>
+<p>
+When people think of election rigging they are generally thinking of ballot stuffing. In this article we want to focus on a different form of electoral rigging: <a href="https://time.com/4547594/vote-flipping-election-rigged/" target="_blank">Vote Flipping</a>, where you vote thinking you have voted for Candidate A but later on it turns out that your vote was allocated to Candidate B.
+</p>
+
+<p></p>
+<h3><p></p>Scope of this Article:</h3>
+
+<p>The method we use should work for any constituency, but in this article I want to focus on just one election: <a href="https://drive.google.com/drive/u/0/folders/1Gc0K8aXRH-NDGZ_GsymOrjVKpyP7_m22" target="_blank">PK-79 Peshawar VIII</a> (You are encouraged to try my approach for other constituencies).</p>
+
+<p>The election in question was between <a href="https://en.wikipedia.org/wiki/Taimur_Khan_Jhagra" target="_blank">Taimur Saleem Khan Jhagra</a> and <a href="https://www.pakp.gov.pk/members/jalal-khan-pk-79-2024/" target="_blank">Jalal Khan</a>. Taimur Jhagra is the former <a href="https://twitter.com/Jhagra" target="_blank">Health and Finance Minister</a> of KP during the 2018-2022 cycle. During his tenure, his impact on the health sector of KP had been quite visible. He helped implement and devise <a href="https://www.atlanticcouncil.org/event/an-inside-look-at-pakistans-covid19-response/" target="_blank">COVID protocols</a> for the province. He also <a href="https://tribune.com.pk/story/2327019/third-party-audit-of-sehat-card-finalised" target="_blank">introduced</a> the <a href="https://www.pmhealthprogram.gov.pk/" target="_blank">Sehat Card</a> to KP. In contrast, <a href="https://en.wikipedia.org/wiki/Jalal_Khan_(politician)" target="_blank">Jalal Khan</a> is a stub on wikipedia.</p>
+
+<p>You would think that for all his work and name recognition, Taimur Jhagra would easily win the elections in 2023. However, if you believe the ECP, it seems that the people of Peshawar were so sick and tired of all the good things Taimur had been doing for the province that they decided they wanted change and elected Jalal instead. Or conversely you can ask whether something else has happened. I am not a political scientist nor do I make any claims to being an expert on the psyche of the residents of Peshawar VIII.<br></p>
+<center>
+    <p class="rtl">مجھے تو بس تھوری سی میتھ آتی ہے- </p><font size="-2">[<a href="https://translate.google.com/?sl=ur&tl=en&text=%D9%85%D8%AC%DA%BE%DB%92+%D8%AA%D9%88+%D8%A8%D8%B3+%D8%AA%DA%BE%D9%88%D8%B1%DB%8C+%D8%B3%DB%8C+%D8%B1%DB%8C%D8%A7%D8%B6%DB%8C+%D8%A2%D8%AA%DB%8C+%DB%81%DB%92-&op=translate" target="_blank">translation</a>]</font>
+</center>
+
+<br>
+<p>And using that little maths, let us try to figure out why Taimur lost such an easy seat.</p>
+
+<p></p>
+<h3><p></p>Background:</h3>
+
+<ul>
+  <li>The section contains maths.</li>
+  <li>The background section introduces some Probability Theory. If you are already comfortable with basic probability you can skip that section.</li>
+  <li>If you are allergic to maths and during the article you experience any of the following symptoms: Headaches, Nausea, Vomiting, Dry Mouth or Indigestion please contact your doctor.</li>
+</ul>
+
+<p></p>
+<h3><p></p>Probability Theory:</h3>
+
+<p>Let's say you have a coin with 2 sides &mdash; heads and tails. If the coin is fair and you flip it, the probability of it coming down heads, is the same as the probability of it coming down tails (i.e. a one in two chance or \(\frac{1}{2}\) ). We can write it as follows:</p>
+<center>
+<p>Probability of Head: \( P(H) = \frac{1}{2} \) <br>
+Probability of Tail: \( P(T) = \frac{1}{2} \)</p>
+</center>
+<br>
+<center>
+<figure class="left">
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/5PKR_Obv.jpeg">
+    <figcaption>Heads</figcaption>
+</figure>
+<figure class="right">
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/5PKR_Rev.jpeg">
+    <figcaption>Tails</figcaption>
+</figure>
+</center>
+
+<p></p>
+<p>If you flip this coin the probability of it landing either on its heads or on its tails is \(P(H)+P(T)=1\)  (your coin can't land on any other side)</p>
+
+<p>If you were to flip this coin \(100\) times, you would expect that on average it would land heads almost half of the time \((50)\) and tails the other half \((50)\).</p>
+<br>
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/unbiased_flips.png">
+    <figcaption>An illustration of what 100 flips would look like. <br> <b>Note:</b> We don't care about the order of heads or tails, we just need the total count.</figcaption>
+</figure>
+</center>
+<p></p>
+<p>
+    Now let's say I take out a new coin and claim that it is a fair coin. I flip this coin 100 times and it lands heads 100 times, you are well within your right to question my claim of fairness. 
+</p>
+
+<br>
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/biased_flips.png">
+    <figcaption>An illustration of what 100 flips from such a coin will look like.</figcaption>
+</figure>
+</center>
+<p></p>
+<p>Intuitively it feels like there is something off and something improbably has happened. Let's try to put some numbers around our intuition.</p>
+<p>Let's see what the probability of getting this outcome is</p>
+<center> Probability of \(100\) Heads\(=P(H)^{100} =P(\frac{1}{2})^{100} = 7.810\times10^{31}\)  </center>
+<br><br>
+<p>or  there was a one in one-nonillion chance of me flipping the coin and it landing heads \(100\) times. In comparison the probability of you getting <a href="https://www.businessinsider.com/shark-attacks-what-are-odds-of-getting-bitten-2018-7" target="_blank">attacked by a shark</a> are one in \(3.75\) million and the probability of getting <a href="https://www.britannica.com/question/What-are-the-chances-of-being-struck-by-lightning" target="_blank">struck by lightning</a> are one in \(15,600\).<br>
+You have a better chance of getting attacked by a shark and getting struck by lightning (one in fifty seven billion) than I had of landing \(100\) heads.</p>
+<p>Now that we know what bias looks like, we can move on to evaluating it in a more statistical way.</p>
+
+
+<p></p>
+<h3><p></p>Chi-Squared Test:</h3>
+
+<p>In statistics, we can use a <a href="https://en.wikipedia.org/wiki/Chi-squared_test" target="_blank">Chi-squared</a> test to evaluate the fairness of this coin.</p>
+<p>More specifically the Chi-squared test will test us the \(p\)-value or the probability is that the event we observed was just random chance.</p>
+From statistics we know:<br>
+<center>
+    \(\chi^{2} = \Sigma\frac{(O-E)^{2}}{E}\)
+</center>
+<br>
+<p>Here \(\chi^{2}\) is the Chi-square metric, \(E\) is the number of events we expected, in our case, if we flip \(100\) coins we expect \(50\) heads and \(50\) tails. and \(O\) is the number of events we observe (in our case we observed \(100\) heads after \(100\) flips and \(0\) tails). And \(\Sigma\) is the summation function, we we need to calculate \(\frac{(E-O)^{2}}{E}\) first for one possibilty (heads) than the other possiblity (tails) and add the values. We can rewrite the expression as:</p>
+
+<center>
+    \(\chi^{2} = \frac{(Observed\ Heads - Expected\ Heads)^{2}}{Expected\ Heads}+\frac{(Observed\ Tails - Expected\ Tails)^{2}}{Expected\ Tails}\)
+</center>
+<br>
+<center>
+    \(\chi^{2} = \frac{(100-50)^{2}}{50}+\frac{(0 - 50)^{2}}{50} = 100\)
+</center>
+
+<br><br>
+<p>We have a \(\chi^{2}\) value of \(100\) for our example, we can now use a chi-squared <a href="https://people.smp.uq.edu.au/YoniNazarathy/stat_models_B_course_spring_07/distributions/chisqtab.pdf" target = "_blank">distribution table</a> to look up the \(p\)-value for this \(\chi^{2}\) value (or use an <a href="https://www.graphpad.com/quickcalcs/chisquared2/" target="_blank">online calculator</a> to do the same) .</p>
+
+
+<p>In our case our \(p\)-value is \(0.00001\) i.e. there is a \(0.001\%\) chance that the event we observed was because of random chance. SInce this \(p\)-value is less than \(0.05\) we can say that the distribution generating our original unfair coin flips did not generate this 100 head coin flip. And you can definitely accuse me of giving you an unfair coin.</p>
+
+<p>If we want to connect this to the election in PK-79, we are basically trying to figure out whether the modifications on the ECP's form 45s were a result of just random chance (i.e. some ROs making mistakes) or was there a deliberate and systematic attempt at fudging the forms (i.e. the mistakes were deliberate and the coin was biased).</p>
+<p></p>
+<h3><p></p>The Unit Digit Test:</h3>
+<p>The probabilities of coins are fun, but let's now shift gears and focus on something that is more real-world. Let's say you and I are watching a cricket match and I ask you to guess the unit digit on the scorecard of the team batting first at the end of their inning. If we are watching the PSL match between the <a href="https://www.espncricinfo.com/series/pakistan-super-league-2023-24-1412744/islamabad-united-vs-lahore-qalandars-23rd-match-1416494/full-scorecard" target="_blank">Lahore Qalandars and Islamabad United</a>, and after the \(20^{\text{th}}\) over the scorecard reads \(7\)-\(162\), then the unit digit of this score is \(2\).</p>
+
+<p>Now we can ask, what is the probability of getting a unit digit of 6 at the end of the first inning in an arbitrary match? <br>
+Since there are \(10\) digits, \(0\) to \(9\), and if we assume the likelihood of each digit occuring is the same, then we can say there's a one in 10 chance (\(\frac{1}{10}\)) of getting a 6 in the unit digit<sup class="superscript">[<a href="#citation_1">1</a>]</sup>.</p>
+<p>The unit digit test states"the last will occur with equal frequency for a large class of theoretical distribution"<sup class="superscript">[<a href="#citation_2">2</a>]</sup>.
+</p>
+<p><b>Note:</b> This won't be true if I had asked you about the probability of the leading digit. In a T20 match, you are more likely to have a \(1\) in the leading place than say a \(4\) (Teams generally score between \(100\)-\(200\) in T20s, rarely do they post scores in either the \(400\)s or the \(40\)s).
+</p>
+<p>
+Let's see whether the unit digit test holds true for the PSLs from the previous years. Focusing on the 2022 season, we expect that there is an equal chance of each number appearing in the unit place. In practice, we are looking at 34 matches in the 2022 season, so we would expect that each digit occurs around \(3\) to \(4\) times (on average \(3.4\) times), but because of randomness there might be some deviations.
+</p>
+
+
+<p></p>
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/PSL_2022_scores.png">
+    <figcaption>The number of times each Unit Digit occurred at the end of the first inning at PSL 2022.</figcaption>
+</figure>
+</center>
+<p></p>
+<p></p>
+<p>Looking at the figures we see that our hypothesis does hold true for the 2022 seasons. And the \(p\)-value = \(0.92\) of the Chi square test of the distributions supports the idea that the distribution is similar to a distribution stemming from a uniform random distribution.</p>
+
+<p>Let's say there was match fixing in the PSL, and someone was trying to manually adjust the match scores. What would you think would happen? <br>
+Although we would expect that the score cards might have equifrequent last digits, however people aren't good at producing random patterns even when they have the incentive to do so<sup class="superscript">[<a href="#citation_2">2</a>]</sup>. We as a species just can't generate randomness so it is safe to assume that the unit digit test might not hold as well on the fixed score cards. </p>
+
+<p></p>
+<h3><p></p>The 2020 US presidential elections:</h3>
+
+<p>While coin flips and cricket matches are interesting, that's not why we are here. We want to know how the unit digit test looks in elections. As an example, let us look at what the distribution of the unit digits looked like in the 2020 US presidential elections.</p>
+<p>We are going to use this <a href="https://github.com/TheUpshot/presidential-precinct-map-2020" target="_blank">data</a>.</p>
+<p>For each candidate, Donald Trump and Joe Biden, we are going to look at the last digit of the votes they got in each precinct and then analyze the distribution of the last digits. We are going to be ignoring cases where a candidate did not get any votes:</p>
+
+
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/US_election_2022_Trump.png">
+    <figcaption>The distribution of the unit digits from all the precients that voted for Donald Trump.</figcaption>
+</figure>
+</center>
+
+
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/US_election_2022_Biden.png">
+    <figcaption>The distribution of the unit digits from all the precients that voted for Joe Biden.</figcaption>
+</figure>
+</center>
+
+<p></p>
+<p>This is such a perfect example of the unit digit test. The American public voted in \(141,798\) precincts and the distribution we got for them follows our expectation (the dotted line) to the tee.</p>
+
+<p>Now what claims can we make about these elections:
+    <ul>
+      <li>We can quite confidently say that it seems at an aggregate level, there doesn't seem like there was any large scale rigging and it doesn't seem like anyone manually manipulated the election results.</li>
+      <li>It might be that in one or two (or a very small) number of precincts there was some election rigging, but that isn't statistically significant to impact the overall results. </li>
+    </ul>
+</p>
+
+
+<p></p>
+<h3><p></p>Caveat:</h3>
+
+<p>We ignored cases where the candidates did not get any votes. Let's say I am running in an election in South Punjab. I am not from South Punjab, No one in south punjab has even heard of me, let alone would vote for me. In that case, you wouldn't expect that the unit digits of the number of votes I will get would follow a uniform distribution, but instead what you would expect is that in almost all the cases, I would have a very high distribution of 0s (i.e. I do not get any votes) and maybe a handful of 1s (not different from random noise) in cases where someone accidentally does vote for me.</p>
+
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/South_Punjab_Results.png">
+    <figcaption>My expected distribution if I had run for Parliement from South Punjab<br>(or any place else in Pakistan for that matter).</figcaption>
+</figure>
+</center>
+<p>Going back to the cricket analogy, this is the same as getting all rained out matches during a PSL season with no results and scorecards that read \(0\)-\(0\).</p>
+<p></p>
+
+
+<h3><p></p>What happened in PK-79, Peshawar VIII:</h3>
+
+<p>Let's say we were to collate the data from the 66 polling stations in PK-79 and were to plot the unit digits of the votes the candidates got in each polling station. If we see a distribution that is similar to the ones we saw with PSL and the US elections, then we can say with some confidence that there was no Vote Flipping. However, if we were to see something that deviates significantly from our expected distribution, then we can no longer be certain that the vote count was not modified. Note: We aren't going to be making any claims about any other form of rigging, just Vote Flipping.</p>
+
+<h3><p></p>The Data:</h3>
+<p>We will be analyzing two datasets. One is the official Form 45s uploaded by the ECP on their <a href="https://ecp.gov.pk/general-elections-2024" target="_blank">website</a>. Let's call these the ECP-forms. The other is the data the PTI uploaded on and after election night. We will call these the PTI-forms. These include <a href="https://project45.vercel.app/viewer/PK-79/2" target="_blank">photos</a> of the Form 45s given out by the RO to the candidates as well as <a href="https://www.form45.com/" target="_blank">tabulated data</a> representing the same forms.</p>
+
+<p>The claim we are investigating is whether either the ECP-forms or the PTI-forms show signs of vote flipping.</p>
+
+<h3><p></p>Data Collection:</h3>
+<p>We are only interested in the vote counts for Taimur Saleem Jhagra and Jalal Khan. We can also add in a third candidate <a href="https://www.facebook.com/M.SiddiqueAfridipk79" target="_blank">Muhammad Siddique Afridi</a> as a control. </p>
+
+<p>In an experiment, a control is a standard against which the results of the experiment are compared. It serves as a baseline for our comparison with the group that we are analyzing. The control will help us determine whether the changes we observe in the two forms are due to the manipulation or are simply the result of other factors like typos and human errors.</p>
+
+
+<p>We can manually go through the forms the ECP uploaded and transcribe the vote tally for the candidates into a <a href="https://github.com/osama-khalid/AuditingPK79/blob/main/PK-79-ECP_forms.csv" target="_blank">spreadsheet</a>. We did a similar thing with the <a href="https://github.com/osama-khalid/AuditingPK79/blob/main/PK-79-PTI_forms.csv" target="_blank">PTI-Forms</a>. Note that there is a mismatch in the polling station ids. As an example, <a href="https://drive.google.com/file/d/1uO9tgFm90xV6OgcCIKcbVrEGy-94L9QB/view?usp=drive_link" target="_blank">PS-1</a> in the ECP form schema is <a href="https://project45.vercel.app/viewer/PK-79/11" target="_blank">PS-11</a> in the PTI form schema. Even though it doesn't matter for our main analysis, we can manually align the polling station ids.</p>
+
+<h3><p></p>The Analysis:</h3>
+
+
+<p>We are going to analyze the three candidates one by one, starting with the control: Muhammad Siddique Afridi.</p>
+<h3><p></p>Muhammad Siddique Afridi (The Control):</h3>
+
+<p>We can visualize the unit-digit distribution of the votes from the PTI-forms and the ECP forms</p>
+
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/Muhammad%20Siddique%20Afridi_PTI_forms.png">
+    <figcaption>The unit-digit distribution of Muhammad Siddique's votes on the PTI-forms</figcaption>
+</figure>
+</center>
+<p></p>
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/Muhammad%20Siddique%20Afridi_ECP_forms.png">
+    <figcaption>The unit-digit distribution of Muhammad Siddique's votes on the ECP-forms</figcaption>
+</figure>
+</center>
+<p>In both the PTI-forms and the ECP-forms, the unit-digit distribution of the candidate more or less follows a uniform random distribution, with a \(p\)-value greater than \(0.05\) (\(p=0.65\)) for the PTI-forms and \(p=0.84\) for the ECP forms).</p>
+
+
+
+
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/Muhammad%20Siddique%20Afridi_Combined_forms.png">
+    <figcaption>The side-by-side unit-digit distribution of Muhammad Siddique's votes on both forms</figcaption>
+</figure>
+</center>
+<p>There are extremely minor discrepancies in the two distributions. That noise is well within our margin of errors.</p>
+<p></p>
+
+<h3><p></p>Jalal Khan:</h3>
+<p>Next we look at Jalal Khan:</p>
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/Jalal%20Khan_PTI_forms.png">
+    <figcaption>The unit-digit distribution of Jalal Khan's votes on the PTI-forms</figcaption>
+</figure>
+</center>
+
+<p>In the PTI-forms, Jalal Khan's unit-digit distribution is quite similar to the uniform random distribution with a \(p\)-value greater than \(0.05\). (\(p = 0.12\)). </p>
+
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/Jalal%20Khan_ECP_forms.png">
+    <figcaption>The unit-digit distribution of Jalal Khan's votes on the ECP-forms</figcaption>
+</figure>
+</center>
+
+
+<p>In the ECP-forms, the distribution looks quite different. But with a \(p\)-value still greater than \(0.05\) (\(p=0.18\)), this is still within our margin of error. </p>
+
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/Jalal%20Khan_Combined_forms.png">
+    <figcaption>The side-by-side unit-digit distribution of Jalal Khan's votes on both forms</figcaption>
+</figure>
+</center>
+
+<p>Putting the two distributions side by side, you might notice many discrepancies but since we have a very statistical definition of random chance, we can assume that this might be just noise and not deliberate manipulation. At this point, even if we might think that there might have been some vote flipping but if we just rely on the method proposed so far,  we can't say that with statistical certainty.</p>
+
+<h3><p></p>Taimur Saleem Khan Jhagra:</h3>
+<p>Finally we now move to Taimur Jhagra</p>
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/Taimur%20Saleem%20Khan_PTI_forms.png">
+    <figcaption>The unit-digit distribution of Taimur Jhagra's votes on the PTI-forms</figcaption>
+</figure>
+</center>
+<p>Once again the unit-distribution of the vote tally from the PTI-from looks quite similar to uniform random distribution (\(p=0.69\)). At this point we can safely conclude that the data uploaded by the PTI for PK-79, was not tampered with post-hoc.</p>
+
+<p>Now if we do the same for the data from the ECP-forms for Taimur.</p>
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/Taimur%20Saleem%20Khan_ECP_forms.png">
+    <figcaption>The unit-digit distribution of Taimur Jhagra's votes on the ECP-forms</figcaption>
+</figure>
+</center>
+
+<p>This looks extremely drastically different from what we would expect from a uniform random distribution. The \(p\)-value of \(2.5\times 10^{-14}\) would indicate that there is just a one in one trillion chance that this distribution is a product of random chance, and is well beyond our cut-off of \(0.05\). </p>
+<p>Looking at both the distributions side-by-side can give a better idea of how drastically different the ECP-form and the PTI-form results are.</p>
+
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/Taimur%20Saleem%20Khan_Combined_forms.png">
+    <figcaption>The side-by-side unit-digit distribution of Taimur Jhagra's votes on both forms</figcaption>
+</figure>
+</center>
+
+<p>Another way of looking at this result is that Taimur had a better chance of getting struck by lightning while being eaten by a shark (one in fifty seven billion) than of having vote counts ending in 0s in \(40%\) of the polling stations in PK-79. Note that Taimur probably lives in Peshawar quite far away from any water body with sharks.</p>
+
+<h3><p></p>Why is the Manipulation more Evident for Taimur than Jalal:</h3>
+
+
+<p>One question that we might have is that if there is vote flipping, it should show up as evidently in Jalal Khan's results as it does in Taimur. When we go through the ECP forms, we can notice what's happening is a rounding down of Taimur's results, resulting in the excessive 0s. After the rounding down, whatever votes are gained are allocated to Jalal, leading to a somewhat skewed but still a uniform random distribution for him that is within the bounds of our margin or errors.</p>
+
+<p>As an example, in PS-1 &mdash; 11-UPS-Jamrud Rd, according to the PTI form Jalal had \(46\) to Taimur's \(312\) votes. However, in the form the ECP uploaded, Taimur's voters were a much rounder \(120\), compared to Jalal's \(238\).</p>
+<center>
+    <div class="image-container">
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-1.png">
+            <figcaption>Polling Station: 1</figcaption>
+        </figure>
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-4.png">
+            <figcaption>Polling Station: 4</figcaption>
+        </figure>
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-7.png">
+            <figcaption>Polling Station: 7</figcaption>
+        </figure>
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-9.png">
+            <figcaption>Polling Station: 9</figcaption>
+        </figure>
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-11.png">
+            <figcaption>Polling Station: 11</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-13.png">
+            <figcaption>Polling Station: 13</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-21.png">
+            <figcaption>Polling Station: 21</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-22.png">
+            <figcaption>Polling Station: 22</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-23.png">
+            <figcaption>Polling Station: 23</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-24.png">
+            <figcaption>Polling Station: 24</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-28.png">
+            <figcaption>Polling Station: 28</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-29.png">
+            <figcaption>Polling Station: 29</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-32.png">
+            <figcaption>Polling Station: 32</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-33.png">
+            <figcaption>Polling Station: 33</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-35.png">
+            <figcaption>Polling Station: 35</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-36.png">
+            <figcaption>Polling Station: 36</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-38.png">
+            <figcaption>Polling Station: 38</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-40.png">
+            <figcaption>Polling Station: 40</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-41.png">
+            <figcaption>Polling Station: 41</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-44.png">
+            <figcaption>Polling Station: 44</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-50.png">
+            <figcaption>Polling Station: 50</figcaption>
+        </figure>
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-53.png">
+            <figcaption>Polling Station: 53</figcaption>
+        </figure>
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-55.png">
+            <figcaption>Polling Station: 55</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-56.png">
+            <figcaption>Polling Station: 56</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-57.png">
+            <figcaption>Polling Station: 57</figcaption>
+        </figure>
+
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-60.png">
+            <figcaption>Polling Station: 60</figcaption>
+        </figure>
+        <figure>
+            <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/ECP_Examples/PS-61.png">
+            <figcaption>Polling Station: 61</figcaption>
+        </figure>
+
+
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+    </div>Here are all snippets from the \(27\) ECP forms where Taimur’s results ended with a rounded 0.<br>(Scroll horizontally to see more forms).
+</center>
+
+
+<h3><p></p>Further Analysis:</h3>
+
+<p>At this point, we can conclude with quite high confidence that there was vote flipping in PK-79. Votes that the voters gave to Taimur Jhagra were allocated to Jalal Khan’s tally post-elections. Our main statistical analysis is done at this point. We can now shift focus and do a comparative analysis of the ECP and the PTI forms to better understand how exactly the rigging happened.</p>
+
+
+<h3><p></p>Similarity between Distributions:</h3>
+<p>We can start off by measuring the similarity of the election results between the results the ECP forms posted and the ones posted by PTI. If we were to measure the <a href="https://en.wikipedia.org/wiki/Cosine_similarity" target="_blank">cosine similarity</a> for each candidate between the unit-digits of the distributions for the PTI-forms and ECP-forms, we can get a sense of the extent of vote flipping. If the similarity is closer to \(1\) then that means that the two distributions are more or less the same (i.e. there were no changes between the forms) while a similarity closer to \(0\) would indicate that the vote distribution is drastically different. </p>
+<center>
+    <table>
+  <thead>
+    <tr>
+      <th style="width: 150px;">Candidate</th> <th style="width: 100px;">Cosine Similarity</th>
+    </tr>
+  </thead>
+      <tbody>
+        <tr>
+          <td><center>Muhammad Siddique Afridi</center></td>
+          <td><center>\(0.99\)</center></td>
+        </tr>
+        <tr>
+          <td><center>Jalal Khan</center></td>
+          <td><center>\(0.79\)</center></td>
+        </tr>
+        <tr>
+          <td><center>Taimur Saleem Khan Jhagra</center></td>
+          <td><center>\(0.68\)</center></td>
+        </tr>
+      </tbody>
+    </table>
+</center>
+
+<p>The data shows that for Muhammad Siddique the cosine similarity is \(0.99\), which would indicate that there was almost no effort made to his votes. This is an expected outcome given that Siddique was being treated as a control group. However, for both Jalal Khan and Taimur Jhagra, the same can’t be said. </p>
+
+<p>In other words, at this point we can conclude that there wasn’t whole-sale rigging against all the candidates. No one was going around rigging the election against or in favor of poor Siddique, but it does seem that they were going around and taking votes away from Taimur and giving them to Jalal.</p>
+
+
+<h3><p></p>What did the Electoral Manipulation look like:</h3>
+
+
+<p>So far I have been claiming that PK-79 most probably experienced vote flipping and not some other form of vote-rigging. Going back to the example of PS-1, where the ECP form reported \(120\) votes for Taimur and \(238\) for Jalal, note that the total cumulative votes (\(358\)) is the same as the cumulative votes reported by the PTI forms (\(46\) for Jalal and \(312\) for Taimur). This would imply that someone had taken votes that were allocated to Taimur and given them to Jalal.</p>
+
+<h3><p></p>Cumulative Vote Sum:</h3>
+<center>
+<figure >
+    <img class="image-full-width" src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/cumulative_votes_.png">
+    <figcaption>The sum of the votes Both Taimur and Jalal got at each Polling Station<br> as listed on each form.</figcaption>
+</figure>
+</center>
+
+<p>In \(61\) out of the \(66\) polling stations, the cumulative vote sum for the two candidates is the same. The only instances where this isn’t true is in the case of PS-6, PS-24, PS-27, PS-30, and PS-40. It seems someone didn’t get the memo. In all these cases the ECP-forms report more votes than the PTI-forms. We can therefore conclude that in these \(5\) polling stations there was potentially ballot stuffing rather than just vote rigging. Out of these, PS-24 was the most egregious, Jalal Khan had \(800\) voters magically come out of thin air to vote for him. </p>
+
+<h3><p></p>Votes Lost:</h3>
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/Votes_Lost.png">
+    <figcaption>The votes the two candidates got as listed in the ECP forms<br>compared to the votes listed in the PTI forms.</figcaption>
+</figure>
+</center>
+<p>Comparing the PTI-forms with the ECP-forms, we can conclude that in PK-79, Taimur lost at least \(13,416\) of his votes, while Jalal gained \(14,423\) more votes. Overall Jalal gained \(1,007\)<sup class="superscript">[<a href="#citation_3">3</a>]</sup>  votes from voters, who didn’t even vote in the elections. This would once again indicate that there was some ballot stuffing, but in comparison to the vote flipping it was relatively minimal.
+</p>
+<h3><p></p>Vote Changes at the Polling Station</h3>
+<p>We now analyze the difference of the votes between the two form types: </p>
+<center>\(Votes\ in\ ECP\ Form\ -\ Votes\ in\ PTI\ Form\). </center>
+
+<center>
+<figure >
+    <img src="https://raw.githubusercontent.com/osama-khalid/AuditingPK79/main/images/polling_difference.png">
+    <figcaption>The votes Taimur Jhagra Lost in the ECP form<br>compared to the votes Jalal Khan gained.</figcaption>
+</figure>
+</center>
+<p>Looking at this at the polling station level. It becomes quite apparent that at almost all the polling stations (except PS-3 and PS-49) Jalal had gained more votes than he was given by the voters, in other words, the ECP forms had allocated him more votes than the similar PTI forms. While Taimur has lost votes at all polling stations except PS-3, PS-24 and PS-49.</p>
+
+
+<h3><p></p>Conclusion:</h3>
+<p>So far we have used one method to detect rigging. You might be right in thinking that just one method might signal rigging but does not prove it. However, if you actually bother to go through the ECP-forms yourself, you will reach the same conclusion. </p>
+
+<p>I mean:</p>
+
+<center>
+    <p class="rtl">اتنی دھاندلی کہ اندھے کو بھی نظر آ جائے- </p><font size="-2">[<a href="https://translate.google.com/?sl=ur&tl=en&text=%D8%A7%D8%AA%D9%86%DB%8C+%D8%AF%DA%BE%D8%A7%D9%86%D8%AF%D9%84%DB%8C+%DA%A9%DB%81+%D8%A7%D9%86%D8%AF%DA%BE%DB%92+%DA%A9%D9%88+%D8%A8%DA%BE%DB%8C+%D9%86%D8%B8%D8%B1+%D8%A2+%D8%AC%D8%A7%D8%A6%DB%92%0A&op=translate" target="_blank">translation</a>]</font>
+</center>
+
+<p>But now you have mathematical evidence.</p>
+
+<p>I have just done this analysis for one constituency PK-79. But if you are interested in the election results of any other consistency, you can replicate the same technique.The code for this project is up<sup class="superscript">[<a href="#citation_4">4</a>]</sup>. </p>
+
+
+<h3><p></p>What Happens Next?</h3>
+
+    
+<ul>    
+    <li><p>If you are from PK-79 and are convinced of this analysis, you are probably wondering what is the point. Did your vote just go to waste?</p>
+
+    <p>Well, yes and no. </p>
+    <p>You might have voted thinking that your vote will help elect someone competent and bring about democratic change in the country and now feel like you have wasted your vote. I would just like to tell you that your vote has inadvertently managed to highlight the rot in the system, which is a different but equally valid outcome.</p></li>
+
+    <li>
+        <p>If you are the rot in the system and are also convinced of this analysis, then you’re probably wondering what is the point. If someone can detect your rigging with extremely basic maths, did all your efforts go to waste?</p>
+        <p>Fear not, Jalal Khan is still the representative of PK-79. And you have 5 years till the next election to come up with more effective rigging methods.</p>
+    </li>
+</ul>
+
+
+<p class="bottom-three"></p>
+
+<hr>
+
+
+<p>
+    <div id="citation_1">
+        [1] Mack, Verena, and Lukas F. Stoetzer. "Election fraud, digit tests and how humans fabricate vote counts-An experimental approach." Electoral Studies 58 (2019): 31-47.
+    </div>
+</p>
+<p>
+    <div id="citation_2">
+        [2] Beber, Bernd, and Alexandra Scacco. "What the numbers say: A digit-based test for election fraud." Political analysis 20.2 (2012): 211-234.
+    </div>
+</p>
+<p>
+    <div id="citation_3">
+        [3] \(14,423-13,416=1,007\)
+    </div>
+</p>    
+<p>
+    <div id="citation_4">
+        [4] <a href="https://github.com/osama-khalid/AuditingPK79" target="_blank">Auditing PK-79</a>
+    </div>
+</p>
+<p class="bottom-five"></p>
+</div>
+</div>
+</body>
